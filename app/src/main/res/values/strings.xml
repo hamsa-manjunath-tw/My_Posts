@@ -1,0 +1,5 @@
+<resources>
+    <string name="app_name">My Posts</string>
+    <string name="error_text">An error occured while loading Data.</string>
+    <string name="edit_button">edit button</string>
+</resources>
