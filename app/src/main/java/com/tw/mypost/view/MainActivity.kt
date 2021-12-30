@@ -1,16 +1,16 @@
 package com.tw.mypost.view
 
+import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
+import android.view.MenuItem
 import android.view.View
-import android.widget.ProgressBar
-import android.widget.TextView
+import android.widget.*
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
-import androidx.swiperefreshlayout.widget.SwipeRefreshLayout
 import com.tw.mypost.R
 import com.tw.mypost.viewmodel.ListViewModel
 import com.google.android.material.snackbar.Snackbar
@@ -21,12 +21,11 @@ import com.tw.mypost.model.MyPosts
 class MainActivity : AppCompatActivity() {
 
     lateinit var viewModel: ListViewModel
-    private val postsAdapter = PostsListAdapter(arrayListOf()) // passing empty list
+    private val postsAdapter = PostsListAdapter(arrayListOf())
 
     lateinit var postsList: RecyclerView
     lateinit var list_error: TextView
     lateinit var loading_view: ProgressBar
-    lateinit var swipeRefreshLayout: SwipeRefreshLayout
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -40,16 +39,9 @@ class MainActivity : AppCompatActivity() {
         loading_view = findViewById(R.id.loading_view)
         postsList = findViewById(R.id.postsList)
 
-        swipeRefreshLayout = SwipeRefreshLayout(this)
-
         postsList.apply {
             layoutManager = LinearLayoutManager(context)
             adapter = postsAdapter
-        }
-
-        swipeRefreshLayout.setOnRefreshListener {
-            swipeRefreshLayout.isRefreshing = false
-            viewModel.refresh()
         }
 
         observeViewModel()
@@ -115,8 +107,20 @@ class MainActivity : AppCompatActivity() {
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
+
         var menuInflater = getMenuInflater()
         menuInflater.inflate(R.menu.menu_items, menu)
         return super.onCreateOptionsMenu(menu)
+    }
+
+    override fun onOptionsItemSelected(item: MenuItem): Boolean {
+        return when (item.itemId) {
+            R.id.addPosts -> {
+                var addIntent: Intent = Intent(this, AddPostsActivity::class.java)
+                startActivity(addIntent)
+                true
+            }
+            else -> super.onOptionsItemSelected(item)
+        }
     }
 }

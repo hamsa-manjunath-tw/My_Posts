@@ -11,7 +11,8 @@
         android:id="@+id/my_toolbar"
         android:layout_width="match_parent"
         android:layout_alignParentTop="true"
-        android:layout_height="?attr/actionBarSize">
+        android:layout_height="?attr/actionBarSize"
+        tools:ignore="MissingConstraints">
 
     </androidx.appcompat.widget.Toolbar>
 

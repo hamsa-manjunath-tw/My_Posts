@@ -1,22 +1,29 @@
 package com.tw.mypost.model
 
+import com.tw.mypost.di.DaggerApiComponent
+import io.reactivex.Observable
 import io.reactivex.Single
+import retrofit2.Response
 import retrofit2.Retrofit
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Inject
 
 class PostsService {
 
-    private val base_url = "https://jsonplaceholder.typicode.com"
-    private val api: PostsApi
+    @Inject
+    lateinit var api: PostsApi
+
     init{
-        api = Retrofit.Builder().baseUrl(base_url).addConverterFactory(GsonConverterFactory.create())
-            .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
-            .build()
-            .create(PostsApi::class.java)
+        DaggerApiComponent.create().inject(this)
     }
 
     fun getPosts(): Single<List<MyPosts>> {
         return api.getPosts()
+    }
+
+
+    fun addPosts(myPost: MyPosts): Observable<Response<MyPosts>> {
+        return api.addPosts(myPost)
     }
 }

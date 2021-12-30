@@ -28,8 +28,8 @@ class PostsListAdapter(var posts: ArrayList<MyPosts>) :
             post_id.text = post.id.toString()
             title.text = post.title
             description.text = post.body
-
         }
+
     }
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int) = PostsViewHolder(
