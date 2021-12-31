@@ -44,6 +44,7 @@ class ListViewModel : ViewModel() {
         )
     }
 
+
     override fun onCleared() {
         super.onCleared()
         disposable.clear()

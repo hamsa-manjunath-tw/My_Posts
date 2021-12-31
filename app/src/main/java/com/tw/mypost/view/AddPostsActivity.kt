@@ -19,43 +19,54 @@ class AddPostsActivity : AppCompatActivity() {
     lateinit var add_edit_button: Button
 
     lateinit var addEditViewModel: AddEditViewModel
+    lateinit var newPost: MyPosts
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_add_posts)
 
+        post_id = findViewById<EditText>(R.id.post_id)
+        post_title = findViewById<EditText>(R.id.post_title)
+        post_description = findViewById<EditText>(R.id.post_description)
         add_edit_button = findViewById(R.id.add_edit_button)
-
         addEditViewModel = ViewModelProviders.of(this).get(AddEditViewModel::class.java)
 
+        var editPostId = intent.getStringExtra("post_id")
+
+
+        if (editPostId == null) {
+            add_edit_button.text = "ADD"
+        } else {
+            add_edit_button.text = "UPDATE"
+            post_id.setText(intent.getStringExtra("post_id"))
+            post_title.setText(intent.getStringExtra("description"))
+            post_description.setText(intent.getStringExtra("description"))
+        }
 
         add_edit_button.setOnClickListener {
-            post_id = findViewById(R.id.post_id)
-            post_title = findViewById(R.id.post_title)
-            post_description = findViewById(R.id.post_description)
 
-
-            var newPost: MyPosts = MyPosts(
+            newPost = MyPosts(
                 0, post_id.text.toString().toLong(),
                 post_title.text.toString(), post_description.text.toString()
             )
-
-            addEditViewModel.refresh(newPost)
-
+            addEditViewModel.refresh(newPost, add_edit_button.text.toString())
             finish()
-
-            Toast.makeText(
-                this, "The ${newPost.title} got added successfully",
-                Toast.LENGTH_SHORT
-            ).show()
-
         }
     }
 
     override fun finish() {
         super.finish()
+        if (add_edit_button.text.equals("ADD")) {
+            Toast.makeText(
+                this, "The ${newPost.title} got added successfully",
+                Toast.LENGTH_SHORT
+            ).show()
+        } else {
+            Toast.makeText(
+                this, "The ${newPost.title} got updated successfully",
+                Toast.LENGTH_SHORT
+            ).show()
+        }
+
     }
-
-
-
 }

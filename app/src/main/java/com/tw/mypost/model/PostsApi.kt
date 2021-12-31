@@ -4,9 +4,7 @@ import io.reactivex.Observable
 import io.reactivex.Single
 import retrofit2.Call
 import retrofit2.Response
-import retrofit2.http.GET
-import retrofit2.http.POST
-import retrofit2.http.Body
+import retrofit2.http.*
 
 interface PostsApi {
     @GET("posts")
@@ -14,5 +12,8 @@ interface PostsApi {
 
     @POST("posts")
     fun addPosts(@Body myPost: MyPosts): Observable<Response<MyPosts>>
+
+    @PUT("posts/{id}")
+    fun editPosts(@Body myPost: MyPosts, @Path("id") id: Long): Observable<Response<MyPosts>>
 
 }

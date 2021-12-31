@@ -18,10 +18,15 @@ class AddEditViewModel : ViewModel() {
     private var post: MutableLiveData<MyPosts> = MutableLiveData<MyPosts>()
     private val disposable = CompositeDisposable()
 
-    var isSuccess = MutableLiveData<Boolean>()
+    var isSuccess:Boolean = false
 
-    fun refresh(myPost: MyPosts) {
-        addPost(myPost)
+    fun refresh(myPost: MyPosts, action: String) {
+        if (action.equals("ADD")) {
+            addPost(myPost)
+        } else if (action.equals("UPDATE")) {
+            editPost(myPost)
+        }
+
     }
 
     private fun addPost(myPost: MyPosts) {
@@ -33,20 +38,52 @@ class AddEditViewModel : ViewModel() {
             .subscribe(object : Observer<Response<MyPosts>> {
 
                 override fun onError(e: Throwable) {
-                    isSuccess.value = false
+                    isSuccess = false
                 }
 
                 override fun onNext(value: Response<MyPosts>?) {
+                    if(value?.isSuccessful == true){
+                        isSuccess = true
+                    }
                 }
 
                 override fun onComplete() {
 
-                    isSuccess.value = true
                 }
 
                 override fun onSubscribe(d: Disposable?) {
                 }
             })
+    }
+
+    private fun editPost(myPost: MyPosts) {
+        if (myPost != null) {
+
+            post.value = myPost
+            val response: Observable<Response<MyPosts>> = postsService.editPosts(myPost)
+            response.subscribeOn(Schedulers.newThread())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(object : Observer<Response<MyPosts>> {
+
+                    override fun onError(e: Throwable) {
+                        isSuccess = false
+                    }
+
+                    override fun onNext(value: Response<MyPosts>?) {
+                        if(value?.isSuccessful == true){
+                            isSuccess = true
+                        }
+                    }
+
+                    override fun onComplete() {
+                    }
+
+                    override fun onSubscribe(d: Disposable?) {
+                    }
+                })
+
+        }
+
     }
 
     override fun onCleared() {

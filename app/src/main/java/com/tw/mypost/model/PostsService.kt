@@ -22,8 +22,10 @@ class PostsService {
         return api.getPosts()
     }
 
-
     fun addPosts(myPost: MyPosts): Observable<Response<MyPosts>> {
         return api.addPosts(myPost)
+    }
+    fun editPosts(myPost: MyPosts): Observable<Response<MyPosts>> {
+        return api.editPosts(myPost, myPost.id.toLong())
     }
 }

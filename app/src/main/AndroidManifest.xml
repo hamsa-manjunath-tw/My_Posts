@@ -14,7 +14,7 @@
         <activity
             android:name=".view.AddPostsActivity"
             android:exported="false"
-            android:parentActivityName=".view.MainActivity"/>
+            android:parentActivityName=".view.MainActivity" />
         <activity
             android:name=".view.MainActivity"
             android:exported="true">

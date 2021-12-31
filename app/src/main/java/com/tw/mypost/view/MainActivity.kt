@@ -117,6 +117,7 @@ class MainActivity : AppCompatActivity() {
         return when (item.itemId) {
             R.id.addPosts -> {
                 var addIntent: Intent = Intent(this, AddPostsActivity::class.java)
+
                 startActivity(addIntent)
                 true
             }
