@@ -119,6 +119,8 @@ class MainActivity : AppCompatActivity() {
                 var addIntent: Intent = Intent(this, AddPostsActivity::class.java)
 
                 startActivity(addIntent)
+                //overridePendingTransition(R.anim.slide_down, R.anim.slide_up)
+               overridePendingTransition(R.anim.slide_down, R.anim.slide_up)
                 true
             }
             else -> super.onOptionsItemSelected(item)

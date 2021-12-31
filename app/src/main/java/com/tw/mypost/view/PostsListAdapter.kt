@@ -9,6 +9,9 @@ import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 import com.tw.mypost.R
 import com.tw.mypost.model.MyPosts
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
+
 
 class PostsListAdapter(var posts: ArrayList<MyPosts>) :
     RecyclerView.Adapter<PostsListAdapter.PostsViewHolder>() {
@@ -52,6 +55,10 @@ class PostsListAdapter(var posts: ArrayList<MyPosts>) :
             intent.putExtra("description", holder.description.text.toString())
 
             context.startActivity(intent)
+
+            val animation: Animation =
+                AnimationUtils.loadAnimation(context, android.R.anim.slide_out_right)
+            holder.itemView.startAnimation(animation)
         }
 
 

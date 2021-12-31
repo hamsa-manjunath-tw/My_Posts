@@ -6,47 +6,90 @@
     android:layout_height="match_parent"
     tools:context=".view.AddPostsActivity">
 
-    <EditText
-        android:id="@+id/post_id"
+    <TextView
+        android:id="@+id/actionTitle"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
-        android:ems="10"
-        android:hint="UserId"
-        android:inputType="text"
+        android:layout_marginStart="158dp"
+        android:textStyle="bold"
+        android:textSize="40dp"
+        android:layout_marginTop="47dp"
+        android:layout_marginEnd="195dp"
+        android:layout_marginBottom="41dp"
+        android:text="Add Post"
+        app:layout_constraintBottom_toTopOf="@+id/idTextInputLayout"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.499"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/post_title"
-        android:layout_width="wrap_content"
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/idTextInputLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="409dp"
         android:layout_height="wrap_content"
-        android:maxLength="20"
-        android:ems="10"
-        android:hint="Title"
-        android:inputType="textMultiLine"
-        app:layout_constraintBottom_toTopOf="@+id/post_description"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="40dp"
+        android:layout_marginEnd="1dp"
+        android:hint="Id"
+        app:helperText="Required"
+        app:layout_constraintBottom_toTopOf="@+id/titleTextInputLayout"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/post_id"
-        app:layout_constraintVertical_bias="0.423" />
+        app:layout_constraintTop_toTopOf="parent">
 
-    <EditText
-        android:id="@+id/post_description"
-        android:layout_width="wrap_content"
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/post_id"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            />
+
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/titleTextInputLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="409dp"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="128dp"
-        android:maxLength="100"
-        android:ems="10"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="160dp"
+        android:layout_marginEnd="1dp"
+        android:hint="Title"
+        app:counterEnabled="true"
+        app:counterMaxLength="20"
+        app:layout_constraintBottom_toTopOf="@+id/descriptionTextInputLayout"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/post_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLength="20" />
+    </com.google.android.material.textfield.TextInputLayout>
+
+    <com.google.android.material.textfield.TextInputLayout
+        android:id="@+id/descriptionTextInputLayout"
+        style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        android:layout_width="409dp"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="1dp"
+        android:layout_marginTop="220dp"
+        android:layout_marginEnd="1dp"
         android:hint="Description"
-        android:inputType="textMultiLine"
+        app:counterEnabled="true"
+        app:counterMaxLength="100"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.499"
-        app:layout_constraintStart_toStartOf="parent" />
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
+        <com.google.android.material.textfield.TextInputEditText
+            android:id="@+id/post_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:maxLength="100" />
+    </com.google.android.material.textfield.TextInputLayout>
 
     <Button
         android:id="@+id/add_edit_button"
@@ -54,9 +97,12 @@
         android:layout_height="wrap_content"
         android:text="Add"
         app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/descriptionTextInputLayout"
+        tools:layout_editor_absoluteX="160dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/post_description" />
+        app:layout_constraintStart_toStartOf="parent" />
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
