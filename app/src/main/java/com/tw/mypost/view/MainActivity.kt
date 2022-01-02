@@ -1,5 +1,7 @@
 package com.tw.mypost.view
 
+import android.app.AlertDialog
+import android.content.DialogInterface
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -13,9 +15,7 @@ import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.tw.mypost.R
 import com.tw.mypost.viewmodel.ListViewModel
-import com.google.android.material.snackbar.Snackbar
 import androidx.recyclerview.widget.ItemTouchHelper
-import com.tw.mypost.model.MyPosts
 
 
 class MainActivity : AppCompatActivity() {
@@ -57,26 +57,18 @@ class MainActivity : AppCompatActivity() {
             }
 
             override fun onSwiped(viewHolder: RecyclerView.ViewHolder, direction: Int) {
-
-                val deletedData: MyPosts =
-                    postsAdapter.posts.get(viewHolder.adapterPosition)
-
-                val position = viewHolder.adapterPosition
-
-                postsAdapter.posts.removeAt(viewHolder.adapterPosition)
-
-                postsAdapter.notifyItemRemoved(viewHolder.adapterPosition)
-
-                Snackbar.make(postsList, deletedData.title, Snackbar.LENGTH_LONG)
-                    .setAction("Undo",
-                        View.OnClickListener { // adding on click listener to our action of snack bar.
-                            // below line is to add our item to array list with a position.
-                            postsAdapter.posts.add(position, deletedData)
-                            postsAdapter.notifyItemInserted(position)
-                        }).show()
+                AlertDialog.Builder(viewHolder.itemView.context)
+                    .setMessage(" Are you sure ?")
+                    .setPositiveButton("Yes") { dialogInterface: DialogInterface, position: Int ->
+                        val position = viewHolder.adapterPosition
+                        postsAdapter.posts.removeAt(position)
+                        postsAdapter.notifyItemRemoved(position)
+                    }
+                    .setNegativeButton("No") { dialogInterface: DialogInterface, position: Int ->
+                        postsAdapter.notifyItemChanged(viewHolder.adapterPosition)
+                    }.show()
             }
         }).attachToRecyclerView(postsList)
-
     }
 
     fun observeViewModel() {
@@ -120,7 +112,7 @@ class MainActivity : AppCompatActivity() {
 
                 startActivity(addIntent)
                 //overridePendingTransition(R.anim.slide_down, R.anim.slide_up)
-               overridePendingTransition(R.anim.slide_down, R.anim.slide_up)
+                overridePendingTransition(R.anim.slide_down, R.anim.slide_up)
                 true
             }
             else -> super.onOptionsItemSelected(item)
