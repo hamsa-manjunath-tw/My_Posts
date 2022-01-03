@@ -9,6 +9,7 @@ import android.view.Menu
 import android.view.MenuItem
 import android.view.View
 import android.widget.*
+import androidx.core.view.get
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.LinearLayoutManager
@@ -16,6 +17,7 @@ import androidx.recyclerview.widget.RecyclerView
 import com.tw.mypost.R
 import com.tw.mypost.viewmodel.ListViewModel
 import androidx.recyclerview.widget.ItemTouchHelper
+import com.tw.mypost.model.MyPosts
 
 
 class MainActivity : AppCompatActivity() {
@@ -61,8 +63,13 @@ class MainActivity : AppCompatActivity() {
                     .setMessage(" Are you sure ?")
                     .setPositiveButton("Yes") { dialogInterface: DialogInterface, position: Int ->
                         val position = viewHolder.adapterPosition
+
                         postsAdapter.posts.removeAt(position)
                         postsAdapter.notifyItemRemoved(position)
+                        Toast.makeText(
+                            viewHolder.itemView.context, "The post got deleted successfully",
+                            Toast.LENGTH_SHORT
+                        ).show()
                     }
                     .setNegativeButton("No") { dialogInterface: DialogInterface, position: Int ->
                         postsAdapter.notifyItemChanged(viewHolder.adapterPosition)
@@ -111,7 +118,6 @@ class MainActivity : AppCompatActivity() {
                 var addIntent: Intent = Intent(this, AddPostsActivity::class.java)
 
                 startActivity(addIntent)
-                //overridePendingTransition(R.anim.slide_down, R.anim.slide_up)
                 overridePendingTransition(R.anim.slide_down, R.anim.slide_up)
                 true
             }
