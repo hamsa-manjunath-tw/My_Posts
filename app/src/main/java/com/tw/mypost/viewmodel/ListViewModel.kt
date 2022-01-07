@@ -2,17 +2,31 @@ package com.tw.mypost.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.tw.mypost.di.DaggerApiComponent
 import com.tw.mypost.model.MyPosts
 import com.tw.mypost.model.PostsService
+import io.reactivex.Observable
+import io.reactivex.Observer
 import io.reactivex.android.schedulers.AndroidSchedulers
 import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
 import io.reactivex.observers.DisposableSingleObserver
 import io.reactivex.schedulers.Schedulers
+import okhttp3.ResponseBody
+import retrofit2.Response
+import javax.inject.Inject
 
 class ListViewModel : ViewModel() {
 
-    private val postsService = PostsService()
+    @Inject
+    lateinit var postsService: PostsService
+
+    //private val postsService = PostsService()
     private val disposable = CompositeDisposable()
+
+    init {
+        DaggerApiComponent.create().inject(this)
+    }
 
     val posts = MutableLiveData<List<MyPosts>>()
     val postsLoadError = MutableLiveData<Boolean>()
@@ -20,6 +34,29 @@ class ListViewModel : ViewModel() {
 
     fun refresh() {
         fetchPosts()
+    }
+
+    fun deletePosts(id: Long) {
+
+        val response: Observable<Response<ResponseBody>> = postsService.deletePosts(id)
+
+        response.subscribeOn(Schedulers.newThread())
+            .observeOn(AndroidSchedulers.mainThread())
+            .subscribe(object : Observer<Response<ResponseBody>> {
+                override fun onSubscribe(d: Disposable?) {
+                }
+
+                override fun onNext(value: Response<ResponseBody>?) {
+                }
+
+                override fun onError(e: Throwable?) {
+                }
+
+                override fun onComplete() {
+                }
+
+            })
+
     }
 
     private fun fetchPosts() {

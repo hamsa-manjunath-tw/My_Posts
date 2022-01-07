@@ -2,6 +2,7 @@ package com.tw.mypost.viewmodel
 
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
+import com.tw.mypost.di.DaggerApiComponent
 import com.tw.mypost.model.MyPosts
 import com.tw.mypost.model.PostsService
 import io.reactivex.Observable
@@ -11,14 +12,21 @@ import io.reactivex.disposables.CompositeDisposable
 import io.reactivex.schedulers.Schedulers
 import retrofit2.Response
 import io.reactivex.disposables.Disposable
+import javax.inject.Inject
 
 class AddEditViewModel : ViewModel() {
 
-    private val postsService = PostsService()
-    private var post: MutableLiveData<MyPosts> = MutableLiveData<MyPosts>()
+    @Inject
+    lateinit var postsService: PostsService
+
+    init {
+        DaggerApiComponent.create().inject(this)
+    }
+
+    var post: MutableLiveData<MyPosts> = MutableLiveData<MyPosts>()
     private val disposable = CompositeDisposable()
 
-    var isSuccess:Boolean = false
+    var isSuccess: Boolean = false
 
     fun refresh(myPost: MyPosts, action: String) {
         if (action.equals("ADD")) {
@@ -42,7 +50,7 @@ class AddEditViewModel : ViewModel() {
                 }
 
                 override fun onNext(value: Response<MyPosts>?) {
-                    if(value?.isSuccessful == true){
+                    if (value?.isSuccessful == true) {
                         isSuccess = true
                     }
                 }
@@ -70,7 +78,7 @@ class AddEditViewModel : ViewModel() {
                     }
 
                     override fun onNext(value: Response<MyPosts>?) {
-                        if(value?.isSuccessful == true){
+                        if (value?.isSuccessful == true) {
                             isSuccess = true
                         }
                     }

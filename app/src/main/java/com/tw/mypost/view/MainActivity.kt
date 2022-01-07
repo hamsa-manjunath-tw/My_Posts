@@ -3,21 +3,21 @@ package com.tw.mypost.view
 import android.app.AlertDialog
 import android.content.DialogInterface
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.view.Menu
 import android.view.MenuItem
 import android.view.View
-import android.widget.*
-import androidx.core.view.get
+import android.widget.ProgressBar
+import android.widget.TextView
+import android.widget.Toast
+import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
+import androidx.recyclerview.widget.ItemTouchHelper
 import androidx.recyclerview.widget.LinearLayoutManager
 import androidx.recyclerview.widget.RecyclerView
 import com.tw.mypost.R
 import com.tw.mypost.viewmodel.ListViewModel
-import androidx.recyclerview.widget.ItemTouchHelper
-import com.tw.mypost.model.MyPosts
 
 
 class MainActivity : AppCompatActivity() {
@@ -64,10 +64,15 @@ class MainActivity : AppCompatActivity() {
                     .setPositiveButton("Yes") { dialogInterface: DialogInterface, position: Int ->
                         val position = viewHolder.adapterPosition
 
+                        val id = postsAdapter.posts.get(position).id
+                        viewModel.deletePosts(id)
+
                         postsAdapter.posts.removeAt(position)
                         postsAdapter.notifyItemRemoved(position)
+
                         Toast.makeText(
-                            viewHolder.itemView.context, "The post got deleted successfully",
+                            viewHolder.itemView.context,
+                            "The post with id $id got deleted successfully",
                             Toast.LENGTH_SHORT
                         ).show()
                     }
